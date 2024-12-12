@@ -1,0 +1,48 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Home
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Home</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-row>
+      <ion-row>
+        <ion-col *ngFor="let note of notes">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>{{ note.title }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <p>{{ note.message }}</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-row>
+  </ion-content>
+
+
+
+  <ion-button routerLink="/to-do-list">Liste des notes</ion-button>
+  <ion-button class="bottom-right-button" color="warning" routerLink="/new">
+    <ion-icon name="add-outline"></ion-icon>
+  </ion-button>
+</ion-content>
+
+<style>
+  .bottom-right-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100;
+  }
+</style>
