@@ -24,10 +24,11 @@ export class PhotosPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.getImage();
+    //lister toutes les images
     this.listImages();
   }
 
+  //prendre une photo
   public async takePicture() {
     try {
       if (Capacitor.getPlatform() !== 'web') await Camera.requestPermissions();
@@ -50,6 +51,7 @@ export class PhotosPage implements OnInit {
     }
   }
 
+  //toast pour image enregistrée
   async presentToast() {
     const toast = await this.toastCtrl.create({
       message: 'Nouvelle image enregistrée',
@@ -62,8 +64,7 @@ export class PhotosPage implements OnInit {
     });
   }
 
-
-
+  //transformer l'image en blob
   private dataURLtoBlob(dataurl: any) {
     var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
       bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
@@ -79,10 +80,9 @@ export class PhotosPage implements OnInit {
       const filePath = `noteImage/${currentDate}.${imageData.format}`;
       const fileRef = this.storage.ref(filePath);
 
-      // Uploader le fichier
+      //uploader le fichier
       const task = await this.storage.upload(filePath, blob);
 
-      // Obtenir l'URL de téléchargement
       const url = await fileRef.getDownloadURL().toPromise();
       return url;
     } catch (e) {
@@ -90,6 +90,7 @@ export class PhotosPage implements OnInit {
     }
   }
 
+  //lister toutes les images
   async listImages() {
     const folderPath = 'noteImage/';
     const folderRef = this.storage.ref(folderPath);
@@ -105,13 +106,14 @@ export class PhotosPage implements OnInit {
     }
   }
 
+
   async deleteImage(fileUrl: string) {
     try {
-      const fileRef = this.storage.storage.refFromURL(fileUrl); // Utilise refFromURL avec l'URL complète
-      await fileRef.delete(); // Supprime l'image
+      const fileRef = this.storage.storage.refFromURL(fileUrl);
+      await fileRef.delete();
       console.log(`Image supprimée : ${fileUrl}`);
 
-      // Mettre à jour la liste des images après suppression
+      //mettre à jour la liste
       this.imageUrls = this.imageUrls.filter((url) => url !== fileUrl);
     } catch (error) {
       console.error('Erreur lors de la suppression de l\'image:', error);

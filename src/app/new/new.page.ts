@@ -1,5 +1,4 @@
 import { PhotoService } from './../photo.service';
-import { Photo } from '@capacitor/camera';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
@@ -12,7 +11,7 @@ import { Note } from '../models/note.model';
   styleUrls: ['./new.page.scss'],
 })
 export class NewPage implements OnInit {
-  public note: Note = new Note(); // Initialiser l'objet note
+  public note: Note = new Note();
   public imageUrls: string[] = [];
   image: any;
 
@@ -39,7 +38,8 @@ export class NewPage implements OnInit {
   }
 
   public async add() {
-    this.note.date = new Date().toISOString(); // Add the current date
+    //date actuelle
+    this.note.date = new Date().toISOString();
     if (this.photoService.image) {
       for (let image of this.imageUrls)
       this.note.pictureLinks.push(image);

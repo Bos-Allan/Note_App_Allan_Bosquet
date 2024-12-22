@@ -16,40 +16,102 @@
 
   <ion-content [fullscreen]="true">
     <div *ngIf="!modif">
-      <div *ngIf="note" class="ion-padding-horizontal" >
-        <ion-title class="ion-padding-bottom">{{ note.date | date:'dd/MM/yyyy, h:mm a' }}</ion-title>
-        <ion-title class="ion-padding-bottom large-title">{{note.title}}</ion-title>
-        {{ note.message }}
+      <div *ngIf="note" class="ion-padding-horizontal">
+        <p class="text-opacity">{{ note.date | date:'dd/MM/yyyy, h:mm a' }}</p>
+        <h1>{{note.title}}</h1>
+
+        <p>{{ note.message }}</p>
+
+        <div
+          class="ion-justify-content-center"
+          *ngFor="let imageUrl of note.pictureLinks"
+        >
+          <ion-img class="img" [src]="imageUrl" alt="Image"></ion-img>
+        </div>
 
         <ion-buttons slot="solid" class="bottom-right-button">
-          <ion-button fill="solid" color="danger" (click)="onDelete(note.id)">
+          <ion-button fill="solid" color="danger" (click)="setDelete(note.id)">
             <ion-icon name="trash"></ion-icon>
           </ion-button>
           <ion-button fill="solid" color="warning" (click)="setModif()">
             <ion-icon name="pencil-outline"></ion-icon>
           </ion-button>
         </ion-buttons>
-            <div *ngFor="let imageUrl of note.pictureLinks">
-              <ion-img [src]="imageUrl" alt="Image">
-              </ion-img>
-            </div>
       </div>
     </div>
 
     <div *ngIf="modif">
       <div *ngIf="note" class="ion-padding-horizontal">
-        <ion-input class="large-bold-input" placeholder="Titre..." maxlength="15  " [(ngModel)]="note.title"></ion-input>
+        <ion-input
+          class="large-bold-input"
+          placeholder="Titre..."
+          maxlength="15  "
+          [(ngModel)]="note.title"
+        ></ion-input>
 
-        <ion-textarea placeholder="Note..." class="large-textarea" [(ngModel)]="note.message"></ion-textarea>
-        <ion-buttons>
+        <ion-textarea
+          placeholder="Note..."
+          class=""
+          [(ngModel)]="note.message"
+        ></ion-textarea>
+
+        <ion-row>
+          <ion-col *ngFor="let imageUrl of note.pictureLinks">
+            <ion-img [src]="imageUrl" alt="Image"></ion-img>
+            <ion-button
+              class="delete-button"
+              color="danger"
+              (click)="deleteImage(imageUrl)"
+              ><ion-icon name="trash"></ion-icon
+            ></ion-button>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngFor="let imageUrl of imageUrls">
+          <h1>Image à ajouter</h1>
+          <ion-col>
+            <ion-img [src]="imageUrl"></ion-img>
+          </ion-col>
+        </ion-row>
+
+        <ion-buttons class="ion-padding-top ion-justify-content-center">
           <ion-button fill="solid" color="warning" (click)="setNoModif()">
             <ion-icon name="close-outline"></ion-icon>
           </ion-button>
-          <ion-button fill="solid" color="warning" (click)="onModif()" >
+          <ion-button fill="solid" color="warning" (click)="onModif()">
             <ion-icon name="checkmark-outline"></ion-icon>
           </ion-button>
         </ion-buttons>
+
+        <ion-button fill="solid" color="warning" class="bottom-right-button" (click)="takePicture()">
+          <ion-icon name="image-outline"></ion-icon>
+        </ion-button>
       </div>
     </div>
   </ion-content>
 </ion-content>
+
+<style>
+  .delete-button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
+
+  .text-opacity {
+    opacity: 0.5;
+    margin: 5px 0px 5px;
+  }
+
+  .img {
+    max-width: 200px;
+    height: auto;
+  }
+
+  .bottom-right-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100;
+  }
+</style>

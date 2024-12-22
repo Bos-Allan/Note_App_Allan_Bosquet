@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NoteService } from '../note.service';
+import { Router } from '@angular/router';
+import { Note } from '../models/note.model';
 
 @Component({
   selector: 'app-to-do-list',
@@ -6,10 +9,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./to-do-list.page.scss'],
 })
 export class ToDoListPage implements OnInit {
+  notes!: Array<Note>;
 
-  constructor() { }
+  constructor(private noteService: NoteService, private router: Router) {}
 
-  ngOnInit() {
+  //lister toutes les notes onInit
+  ngOnInit(): void {
+    this.noteService.getAll().subscribe((data) => {
+      this.notes = data;
+    });
   }
 
+  onDelete(id: any) {
+    this.noteService.delete(id);
+    this.router.navigate(['/films']);
+  }
 }

@@ -7,7 +7,6 @@ export const environment = {
 
   firebase:{
     apiKey: "AIzaSyAPaSKzizCFkcjCDOjZcvRyC4Anj5IXk3Y",
-    authDomain: "ionic-e9ba4.firebaseapp.com",
     projectId: "ionic-e9ba4",
     storageBucket: "ionic-e9ba4.firebasestorage.app",
     messagingSenderId: "544552913657",

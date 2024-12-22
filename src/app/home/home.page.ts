@@ -14,6 +14,7 @@ export class HomePage {
 
   constructor(private noteService: NoteService, private router: Router) {}
 
+  //lister les notes onInit
   ngOnInit(): void {
     this.noteService.getAll().subscribe((data) => {
       this.notes = data;
