@@ -18,9 +18,30 @@ export class NoteService {
     return this.notesRef.valueChanges({ idField: 'id' }) as Observable<Note[]>;
   }
 
-  add(note: Note): Promise<void> {
-    const id = this.db.createId(); //Pour id
-    return this.notesRef.doc(id).set({ ...note, id });
+  getById(id: any): any {
+    return new Observable(obs => {
+      this.notesRef.doc(id).get().subscribe(res => {
+        obs.next({ id: res.id, ...res.data() });
+      });
+    });
   }
 
+  addNewNote(note: Note): any {
+    return new Observable(obs => {
+      this.notesRef.add({ ...note }).then(() => {
+        obs.next();
+      });
+    });
+  }
+
+  update(note: Note) {
+    return new Observable(obs => {
+      this.notesRef.doc(note.id).update(note);
+      obs.next();
+    });
+  }
+
+  delete(id: any) {
+    this.db.doc(`notes/${id}`).delete();
+  }
 }

@@ -13,26 +13,20 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-content>
-    <ion-row>
-      <ion-row>
-        <ion-col *ngFor="let note of notes">
-          <ion-card>
-            <ion-card-header>
-              <ion-card-title>{{ note.title }}</ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              <p>{{ note.message }}</p>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
+
+    <ion-row *ngFor="let note of notes">
+      <ion-col>
+        <ion-card [routerLink]="['/details', note.id]">
+          <ion-card-header>
+            <ion-card-title>{{ note.title }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p>{{ note.message | slice:0:50 }}<span *ngIf="note.message.length > 50">...</span></p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
     </ion-row>
-  </ion-content>
 
-
-
-  <ion-button routerLink="/to-do-list">Liste des notes</ion-button>
   <ion-button class="bottom-right-button" color="warning" routerLink="/new">
     <ion-icon name="add-outline"></ion-icon>
   </ion-button>

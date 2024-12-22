@@ -1,6 +1,9 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>details</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="note">{{ note.title }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -10,4 +13,43 @@
       <ion-title size="large">details</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <ion-content [fullscreen]="true">
+    <div *ngIf="!modif">
+      <div *ngIf="note" class="ion-padding-horizontal" >
+        <ion-title class="ion-padding-bottom">{{ note.date | date:'dd/MM/yyyy, h:mm a' }}</ion-title>
+        <ion-title class="ion-padding-bottom large-title">{{note.title}}</ion-title>
+        {{ note.message }}
+
+        <ion-buttons slot="solid" class="bottom-right-button">
+          <ion-button fill="solid" color="danger" (click)="onDelete(note.id)">
+            <ion-icon name="trash"></ion-icon>
+          </ion-button>
+          <ion-button fill="solid" color="warning" (click)="setModif()">
+            <ion-icon name="pencil-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+            <div *ngFor="let imageUrl of note.pictureLinks">
+              <ion-img [src]="imageUrl" alt="Image">
+              </ion-img>
+            </div>
+      </div>
+    </div>
+
+    <div *ngIf="modif">
+      <div *ngIf="note" class="ion-padding-horizontal">
+        <ion-input class="large-bold-input" placeholder="Titre..." maxlength="15  " [(ngModel)]="note.title"></ion-input>
+
+        <ion-textarea placeholder="Note..." class="large-textarea" [(ngModel)]="note.message"></ion-textarea>
+        <ion-buttons>
+          <ion-button fill="solid" color="warning" (click)="setNoModif()">
+            <ion-icon name="close-outline"></ion-icon>
+          </ion-button>
+          <ion-button fill="solid" color="warning" (click)="onModif()" >
+            <ion-icon name="checkmark-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </div>
+    </div>
+  </ion-content>
 </ion-content>

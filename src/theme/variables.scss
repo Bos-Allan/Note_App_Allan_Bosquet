@@ -1,2 +1,17 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
+.content-margin {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.large-bold-input {
+  font-size: 24px;
+  font-weight: bold;
+}
+.bottom-right-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+}

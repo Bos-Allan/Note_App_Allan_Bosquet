@@ -3,29 +3,35 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
-    <ion-title>new</ion-title>
+    <ion-title>Nouvelle note</ion-title>
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Nouvelle note</ion-title>
-      <ion-buttons slot="primary">
-        <ion-button fill="solid" color="warning">
-          <ion-icon name="add-outline"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-
-
-    </ion-toolbar>
-  </ion-header>
 
   <ion-content class="ion-padding-horizontal">
-    <ion-input class="large-bold-input" placeholder="Titre..." maxlength="30"></ion-input>
-    <ion-textarea placeholder="Note..."></ion-textarea>
+
+      <ion-input class="large-bold-input" placeholder="Titre..." maxlength="15" [(ngModel)]="note.title"></ion-input>
+
+      <ion-textarea class="" placeholder="Note..." [(ngModel)]="note.message"></ion-textarea>
+
+      <ion-grid>
+        <ion-title *ngIf="imageUrls!.length > 0">Image à ajouter</ion-title>
+        <ion-row *ngFor="let imageUrl of imageUrls">
+          <ion-col size="6">
+            <ion-img [src]="imageUrl"></ion-img>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    <ion-button fill="solid" color="warning" (click)="add()">
+      <ion-icon name="checkmark-outline"></ion-icon>
+    </ion-button>
   </ion-content>
 
+  <ion-button fill="solid" color="warning" class="bottom-right-button" (click)="takePicture()">
+    <ion-icon name="image-outline"></ion-icon>
+  </ion-button>
 </ion-content>
 
 <style>
@@ -37,5 +43,11 @@
   .large-bold-input {
     font-size: 24px;
     font-weight: bold;
+  }
+  .bottom-right-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100;
   }
 </style>

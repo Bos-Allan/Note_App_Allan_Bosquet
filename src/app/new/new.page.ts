@@ -1,4 +1,10 @@
+import { PhotoService } from './../photo.service';
+import { Photo } from '@capacitor/camera';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
+import { NoteService } from '../note.service';
+import { Note } from '../models/note.model';
 
 @Component({
   selector: 'app-new',
@@ -6,10 +12,47 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./new.page.scss'],
 })
 export class NewPage implements OnInit {
+  public note: Note = new Note(); // Initialiser l'objet note
+  public imageUrls: string[] = [];
+  image: any;
 
-  constructor() { }
+  constructor(
+    private noteService: NoteService,
+    private photoService: PhotoService,
+    private toastCtrl: ToastController,
+    private router: Router
+  ) { }
 
   ngOnInit() {
+  }
+
+  async presentToast() {
+    const toast = await this.toastCtrl.create({
+      message: 'Nouvelle Note enregistrée',
+      duration: 2000
+    });
+    toast.present().then(() => {
+      setTimeout(() => {
+        this.router.navigate(['/home']);
+      }, 2000);
+    });
+  }
+
+  public async add() {
+    this.note.date = new Date().toISOString(); // Add the current date
+    if (this.photoService.image) {
+      for (let image of this.imageUrls)
+      this.note.pictureLinks.push(image);
+    }
+    this.noteService.addNewNote(this.note).subscribe(() => {
+      this.presentToast();
+    });
+  }
+
+  public async takePicture() {
+    const imageUrl = await this.photoService.takePicture();
+    this.imageUrls = [imageUrl];
+
   }
 
 }
